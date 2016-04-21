@@ -1,0 +1,22 @@
+{
+  "name": "iga/wall",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Agata"
+    }
+  ],
+  "require": {
+    "baryshev/tree-route": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\Components\\": "app/components",
+      "App\\Controllers\\": "app/controllers",
+      "App\\Models\\": "app/models",
+      "App\\Repositories\\": "app/repositories",
+      "App\\Views\\": "app/views",
+      "App\\Core\\": "app/core"
+    }
+  }
+}
