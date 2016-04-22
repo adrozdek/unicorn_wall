@@ -7,7 +7,8 @@
     }
   ],
   "require": {
-    "baryshev/tree-route": "dev-master"
+    "baryshev/tree-route": "dev-master",
+    "phpunit/phpunit": "5.3.*"
   },
   "autoload": {
     "psr-4": {

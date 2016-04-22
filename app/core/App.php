@@ -18,7 +18,7 @@ class App
         try {
             $this->dispatch($url);
             $conf = new Config();
-            var_dump($conf->getConfig('db.host.param3.trzy3.loc.gtrt'));
+            $conf->getConfig('db.host.param3.trzy3.loc');
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
@@ -65,7 +65,7 @@ class App
 
         //config do ustawienia urli:
         $config = new Config();
-        $urls = $config->getConfigArray('urls');
+        $urls = $config->getConfig('urls');
 
         foreach ($urls as $route => $handler) {
             $router->get($route, $handler);
