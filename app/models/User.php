@@ -41,12 +41,7 @@ class User implements IModel
         if (!$this->checkIfValidBirthDate($this->birthDate)) {
             $this->errors[] = 'Invalid birthdate';
         }
-
-        if (empty($this->errors)) {
-            return true;
-        } else {
-            return false;
-        }
+        return empty($this->errors);
     }
 
     public function checkIfUserExists($email)
