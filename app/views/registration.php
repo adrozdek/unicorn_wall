@@ -1,15 +1,21 @@
+<?php
+if (!empty($data['errors'])) {
+    foreach ($data['errors'] as $error) {
+        echo $error . '<br>';
+    }
+}; ?>
 <form method="post" action="<?= $data['action'] ?>">
     <label>
         First Name:
-        <input type="text" name="firstName" value="<?php if (isset($_POST['firstName'])) echo $_POST['firstName']; ?>">
+        <input type="text" name="firstName" value="<?= $data['firstName']; ?>">
     </label><br>
     <label>
         Last Name:
-        <input type="text" name="lastName" value="<?php if (isset($_POST['lastName'])) echo $_POST['lastName']; ?>">
+        <input type="text" name="lastName" value="<?= $data['lastName']; ?>">
     </label><br>
     <label>
         Email:
-        <input type="email" name="userEmail" value="<?php if (isset($_POST['userEmail'])) echo $_POST['userEmail']; ?>">
+        <input type="email" name="userEmail" value="<?= $data['userEmail']; ?>">
     </label><br>
     <label>
         Password:

@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
-class User
+use App\Components\HtmlComponent;
+use App\Core\DbConnector;
+
+class User implements IModel
 {
+    private $id;
     private $firstName;
     private $lastName;
     private $email;
@@ -11,30 +15,91 @@ class User
     private $city;
     private $age;
     private $unicorns;
+    private $active;
+    private $errors = [];
 
     /**
-     * User constructor.
-     * @param $id
-     * @param $firstName
-     * @param $lastName
-     * @param $email
-     * @param $password
-     * @param $city
-     * @param $age
-     * @param $unicorns
+     * @return array|bool
      */
-    public function __construct($id, $firstName, $lastName, $email, $password, $city, $age, $unicorns)
+    public function validate()
     {
-        $this->id = $id;
-        $this->setFirstName($firstName);
-        $this->setLastName($lastName);
-        $this->email = $email;
-        $this->setPassword($password);
-        $this->setCity($city);
-        $this->setAge($age);
-        $this->setUnicorns($unicorns);
+        if (empty($this->firstName)) {
+            $this->errors[] = 'Invalid first name';
+        }
+        if (empty($this->lastName)) {
+            $this->errors[] = 'Invalid last name';
+        }
+        if (empty($this->password)) {
+            $this->errors[] = 'Invalid password';
+        }
+        if (empty($this->email)) {
+            $this->errors[] = 'Invalid email';
+        }
+
+        if (empty($this->errors)) {
+            return true;
+        } else {
+            return $this->errors;
+        }
     }
-    
+
+    /**
+     * @return bool
+     */
+    public function save()
+    {
+        if ($this->validate()) {
+            $con = DbConnector::getConnection();
+            $stmt = $con->prepare("INSERT INTO Users (first_name, last_name, email, password) VALUES (?,?,?,?)");
+            if ($stmt->execute([$this->firstName, $this->lastName, $this->email, $this->password])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param $password1
+     * @param $password2
+     * @return mixed|null
+     */
+    public function checkPassword($password1, $password2)
+    {
+        $comp = new HtmlComponent();
+
+        $password1 = $comp->filterString($password1, 5);
+        $password2 = $comp->filterString($password2, 5);
+        if ($password1 !== null && $password1 === $password2) {
+            $hashedPassword = $this->hashPassword($password1);
+            return $hashedPassword;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @param $password
+     * @return mixed
+     */
+    private function hashPassword($password)
+    {
+        $options = [
+            'cost' => 11,
+            'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+        ];
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT, $options);
+
+        return $hashedPassword;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
     /**
      * @return mixed
      */
@@ -42,7 +107,7 @@ class User
     {
         return $this->id;
     }
-    
+
     /**
      * @return mixed
      */
@@ -50,7 +115,7 @@ class User
     {
         return $this->firstName;
     }
-    
+
     /**
      * @param mixed $firstName
      */
@@ -58,7 +123,7 @@ class User
     {
         $this->firstName = $firstName;
     }
-    
+
     /**
      * @return mixed
      */
@@ -66,7 +131,7 @@ class User
     {
         return $this->lastName;
     }
-    
+
     /**
      * @param mixed $lastName
      */
@@ -74,7 +139,7 @@ class User
     {
         $this->lastName = $lastName;
     }
-    
+
     /**
      * @return mixed
      */
@@ -82,7 +147,7 @@ class User
     {
         return $this->email;
     }
-    
+
     /**
      * @return mixed
      */
@@ -90,7 +155,7 @@ class User
     {
         return $this->password;
     }
-    
+
     /**
      * @param mixed $password
      */
@@ -98,7 +163,7 @@ class User
     {
         $this->password = $password;
     }
-    
+
     /**
      * @return mixed
      */
@@ -106,7 +171,7 @@ class User
     {
         return $this->city;
     }
-    
+
     /**
      * @param mixed $city
      */
@@ -114,7 +179,7 @@ class User
     {
         $this->city = $city;
     }
-    
+
     /**
      * @return mixed
      */
@@ -122,7 +187,7 @@ class User
     {
         return $this->age;
     }
-    
+
     /**
      * @param mixed $age
      */
@@ -130,7 +195,7 @@ class User
     {
         $this->age = $age;
     }
-    
+
     /**
      * @return mixed
      */
@@ -138,12 +203,44 @@ class User
     {
         return $this->unicorns;
     }
-    
+
     /**
      * @param mixed $unicorns
      */
     public function setUnicorns($unicorns)
     {
         $this->unicorns = $unicorns;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param mixed $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    /**
+     * @param array $errors
+     */
+    public function setErrors($errors)
+    {
+        $this->errors = $errors;
     }
 }
