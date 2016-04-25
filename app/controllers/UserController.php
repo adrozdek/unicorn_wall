@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Components\HtmlComponent;
 use App\Core\Controller;
-use App\Core\DbConnector;
 use App\Models\User;
 
 class UserController extends Controller

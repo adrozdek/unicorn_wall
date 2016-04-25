@@ -35,11 +35,26 @@ class User implements IModel
         if (empty($this->email)) {
             $this->errors[] = 'Invalid email';
         }
+        if (!$this->checkIfUserExists($this->email)) {
+            $this->errors[] = 'Email already used';
+        }
 
         if (empty($this->errors)) {
             return true;
         } else {
             return $this->errors;
+        }
+    }
+
+    public function checkIfUserExists($email)
+    {
+        $con = DbConnector::getConnection();
+        $stmt = $con->prepare("SELECT email FROM Users WHERE email = ?");
+        $stmt->execute([$email]);
+        if ($stmt->rowCount() === 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -50,8 +65,16 @@ class User implements IModel
     {
         if ($this->validate()) {
             $con = DbConnector::getConnection();
-            $stmt = $con->prepare("INSERT INTO Users (first_name, last_name, email, password) VALUES (?,?,?,?)");
-            if ($stmt->execute([$this->firstName, $this->lastName, $this->email, $this->password])) {
+            $stmt = $con->prepare("INSERT INTO Users (first_name, last_name, email, password, city, age, unicorns) VALUES (?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE first_name = VALUES(first_name)");
+            if ($stmt->execute([
+                $this->firstName,
+                $this->lastName,
+                $this->email,
+                $this->password,
+                $this->city,
+                $this->age,
+                $this->unicorns
+            ])) {
                 return true;
             }
         }
