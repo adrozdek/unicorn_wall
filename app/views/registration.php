@@ -14,6 +14,10 @@ if (!empty($data['errors'])) {
         <input type="text" name="lastName" value="<?= $data['user']->getLastName(); ?>">
     </label><br>
     <label>
+        Birthday:
+        <input placeholder="2015-11-30" name='birthDate' type='date' class="form-control" value="<?= $data['user']->getBirthDate(); ?>"/>
+    </label><br>
+    <label>
         Email:
         <input type="email" name="userEmail" value="<?= $data['user']->getEmail(); ?>">
     </label><br>

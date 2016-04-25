@@ -21,6 +21,7 @@ class UserController extends Controller
             $user->setFirstName($htmlComp->filterString($_POST['firstName']));
             $user->setLastName($htmlComp->filterString($_POST['lastName']));
             $user->setPassword($user->checkPassword($_POST['password1'], $_POST['password2']));
+            $user->setBirthDate($_POST['birthDate']);
 
             if ($user->validate() === true) {
                 if ($user->save()) {

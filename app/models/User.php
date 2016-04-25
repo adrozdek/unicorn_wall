@@ -13,7 +13,7 @@ class User implements IModel
     private $email;
     private $password;
     private $city;
-    private $age;
+    private $birthDate;
     private $unicorns;
     private $active;
     private $errors = [];
@@ -38,6 +38,9 @@ class User implements IModel
         if (!$this->checkIfUserExists($this->email)) {
             $this->errors[] = 'Email already used';
         }
+        if (!$this->checkIfValidBirthDate($this->birthDate)) {
+            $this->errors[] = 'Invalid birthdate';
+        }
 
         if (empty($this->errors)) {
             return true;
@@ -58,6 +61,20 @@ class User implements IModel
         }
     }
 
+    private function checkIfValidBirthDate($birthDate)
+    {
+        $date = explode('-', $birthDate);
+        if (count($date) == 3) {
+            $year = preg_match('/^[\d]{4}$/', $date[0]);
+            $month = preg_match('/^[\d]{2}$/', $date[1]);
+            $day = preg_match('/^[\d]{2}$/', $date[2]);
+            if ($year && $month && $day) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * @return bool
      */
@@ -66,14 +83,14 @@ class User implements IModel
         if ($this->validate()) {
             $con = DbConnector::getConnection();
             $stmt = $con->prepare("
-            INSERT INTO Users (first_name, last_name, email, password, city, age, unicorns, active) 
-            VALUES (?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE 
+            INSERT INTO Users (first_name, last_name, email, password, city, birth_date, unicorns, active) 
+            VALUES (?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE 
             first_name = VALUES (first_name),
             last_name = VALUES (last_name),
             email = VALUES (email),
             password = VALUES (password),
             city = VALUES (city),
-            age = VALUES (age),
+            birth_date = VALUES (birth_date),
             unicorns = VALUES (unicorns),
             active = VALUES (active)
             ");
@@ -83,7 +100,7 @@ class User implements IModel
                 $this->email,
                 $this->password,
                 $this->city,
-                $this->age,
+                $this->birthDate,
                 $this->unicorns,
                 $this->active,
             ])
@@ -103,8 +120,8 @@ class User implements IModel
     {
         $comp = new HtmlComponent();
 
-        $password1 = $comp->filterString($password1, 5);
-        $password2 = $comp->filterString($password2, 5);
+        $password1 = $comp->filterString($password1, 4);
+        $password2 = $comp->filterString($password2, 4);
         if ($password1 !== null && $password1 === $password2) {
             $hashedPassword = $this->hashPassword($password1);
             return $hashedPassword;
@@ -219,17 +236,17 @@ class User implements IModel
     /**
      * @return mixed
      */
-    public function getAge()
+    public function getBirthDate()
     {
-        return $this->age;
+        return $this->birthDate;
     }
 
     /**
-     * @param mixed $age
+     * @param mixed $birthDate
      */
-    public function setAge($age)
+    public function setBirthDate($birthDate)
     {
-        $this->age = $age;
+        $this->birthDate = $birthDate;
     }
 
     /**
