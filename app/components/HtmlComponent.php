@@ -32,4 +32,13 @@ class HtmlComponent
             return null;
         }
     }
+
+    /**
+     * @param $string
+     * @return mixed
+     */
+    public function encode($string)
+    {
+        return htmlspecialchars($string, ENT_QUOTES);
+    }
 }

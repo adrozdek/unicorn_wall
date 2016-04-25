@@ -7,19 +7,19 @@ if (!empty($data['errors'])) {
 <form method="post" action="<?= $data['action'] ?>">
     <label>
         First Name:
-        <input type="text" name="firstName" value="<?= $data['user']->getFirstName(); ?>">
+        <input type="text" name="firstName" value="<?= $htmlComponent->encode($data['user']->getFirstName()); ?>">
     </label><br>
     <label>
         Last Name:
-        <input type="text" name="lastName" value="<?= $data['user']->getLastName(); ?>">
+        <input type="text" name="lastName" value="<?= $htmlComponent->encode($data['user']->getLastName()); ?>">
     </label><br>
     <label>
         Birthday:
-        <input placeholder="2015-11-30" name='birthDate' type='date' class="form-control" value="<?= $data['user']->getBirthDate(); ?>"/>
+        <input placeholder="2015-11-30" name='birthDate' type='date' class="form-control" value="<?= $htmlComponent->encode($data['user']->getBirthDate()); ?>"/>
     </label><br>
     <label>
         Email:
-        <input type="email" name="userEmail" value="<?= $data['user']->getEmail(); ?>">
+        <input type="email" name="userEmail" value="<?= $htmlComponent->encode($data['user']->getEmail()); ?>">
     </label><br>
     <label>
         Password:
