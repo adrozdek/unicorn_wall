@@ -65,7 +65,18 @@ class User implements IModel
     {
         if ($this->validate()) {
             $con = DbConnector::getConnection();
-            $stmt = $con->prepare("INSERT INTO Users (first_name, last_name, email, password, city, age, unicorns) VALUES (?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE first_name = VALUES(first_name)");
+            $stmt = $con->prepare("
+            INSERT INTO Users (first_name, last_name, email, password, city, age, unicorns, active) 
+            VALUES (?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE 
+            first_name = VALUES (first_name),
+            last_name = VALUES (last_name),
+            email = VALUES (email),
+            password = VALUES (password),
+            city = VALUES (city),
+            age = VALUES (age),
+            unicorns = VALUES (unicorns),
+            active = VALUES (active)
+            ");
             if ($stmt->execute([
                 $this->firstName,
                 $this->lastName,
@@ -73,8 +84,10 @@ class User implements IModel
                 $this->password,
                 $this->city,
                 $this->age,
-                $this->unicorns
-            ])) {
+                $this->unicorns,
+                $this->active,
+            ])
+            ) {
                 return true;
             }
         }
