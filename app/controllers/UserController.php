@@ -23,7 +23,7 @@ class UserController extends Controller
             $user->setPassword($user->checkPassword($_POST['password1'], $_POST['password2']));
             $user->setBirthDate($_POST['birthDate']);
 
-            if ($user->validate() === true) {
+            if ($user->validate()) {
                 if ($user->save()) {
                     echo 'success';
                 }

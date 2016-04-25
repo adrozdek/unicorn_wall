@@ -45,7 +45,7 @@ class User implements IModel
         if (empty($this->errors)) {
             return true;
         } else {
-            return $this->errors;
+            return false;
         }
     }
 
