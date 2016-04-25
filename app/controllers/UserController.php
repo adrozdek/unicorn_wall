@@ -15,8 +15,8 @@ class UserController extends Controller
     {
         $errors = [];
         $htmlComp = new HtmlComponent();
+        $user = new User();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $user = new User();
             $user->setEmail($htmlComp->filterEmail($_POST['userEmail']));
             $user->setFirstName($htmlComp->filterString($_POST['firstName']));
             $user->setLastName($htmlComp->filterString($_POST['lastName']));
@@ -30,16 +30,12 @@ class UserController extends Controller
                 $errors = $user->getErrors();
             }
         }
-        $firstName = isset($_POST['firstName']) ? $htmlComp->filterString($_POST['firstName'], -1) : '';
-        $lastName = isset($_POST['lastName']) ? $htmlComp->filterString($_POST['lastName'], -1) : '';
-        $userEmail = isset($_POST['userEmail']) ? $htmlComp->filterString($_POST['userEmail'], -1) : '';
-        $action = '/';
+        
+        $action = '/register';
         $this->renderView('registration', [
             'action' => $action,
             'errors' => $errors,
-            'firstName' => $firstName,
-            'lastName' => $lastName,
-            'userEmail' => $userEmail
+            'user' => $user,
         ]);
     }
 }

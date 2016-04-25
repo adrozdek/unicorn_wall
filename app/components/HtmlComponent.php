@@ -25,7 +25,7 @@ class HtmlComponent
      */
     public function filterString($string, $minLength = 2)
     {
-        $string = trim(strip_tags(($string)));
+        $string = trim(filter_var($string, FILTER_SANITIZE_STRING));
         if (mb_strlen($string) > (int)$minLength) {
             return $string;
         } else {

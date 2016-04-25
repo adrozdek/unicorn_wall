@@ -7,15 +7,15 @@ if (!empty($data['errors'])) {
 <form method="post" action="<?= $data['action'] ?>">
     <label>
         First Name:
-        <input type="text" name="firstName" value="<?= $data['firstName']; ?>">
+        <input type="text" name="firstName" value="<?= $data['user']->getFirstName(); ?>">
     </label><br>
     <label>
         Last Name:
-        <input type="text" name="lastName" value="<?= $data['lastName']; ?>">
+        <input type="text" name="lastName" value="<?= $data['user']->getLastName(); ?>">
     </label><br>
     <label>
         Email:
-        <input type="email" name="userEmail" value="<?= $data['userEmail']; ?>">
+        <input type="email" name="userEmail" value="<?= $data['user']->getEmail(); ?>">
     </label><br>
     <label>
         Password:
