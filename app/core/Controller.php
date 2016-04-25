@@ -2,7 +2,6 @@
 
 namespace App\Core;
 
-
 class Controller
 {
     protected function renderView($viewName, $data = [])
