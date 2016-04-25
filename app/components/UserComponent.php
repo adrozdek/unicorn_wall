@@ -10,7 +10,7 @@ class UserComponent
      */
     public function setEmail($email)
     {
-        $email = trim($email);
+        $email = trim(strip_tags($email));
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return $email;
         } else {
@@ -25,8 +25,8 @@ class UserComponent
      */
     public function setPassword($password1, $password2)
     {
-        $password1 = trim($password1);
-        $password2 = trim($password2);
+        $password1 = trim(strip_tags($password1));
+        $password2 = trim(strip_tags($password2));
         if (strlen($password1) > 5 && $password1 === $password2) {
             $hashedPassword = $this->hashPassword($password1);
             return $hashedPassword;
@@ -41,7 +41,7 @@ class UserComponent
      */
     public function setFirstName($firstName)
     {
-        $firstName = trim($firstName);
+        $firstName = trim(strip_tags(($firstName)));
         if (strlen($firstName) > 2) {
             return $firstName;
         } else {
@@ -55,7 +55,7 @@ class UserComponent
      */
     public function setLastName($lastName)
     {
-        $lastName = trim($lastName);
+        $lastName = trim(strip_tags($lastName));
         if (strlen($lastName) > 2) {
             return $lastName;
         } else {
