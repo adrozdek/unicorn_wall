@@ -52,7 +52,7 @@ class UserController extends Controller
         $userComp = new UserComponent();
 
         if ($userComp->checkIfLoggedIn()) {
-            return $this->renderView('main');
+            $this->redirect('/wall');
         }
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $htmlComp = new HtmlComponent();
@@ -66,7 +66,7 @@ class UserController extends Controller
                 $dbPassword = $user->getPassword();
                 if (password_verify($password, $dbPassword)) {
                     $userComp->login($user->getId());
-                    return $this->renderView('main');
+                    $this->redirect('/wall');
                 }
             }
             $error = 'Wrong email or password';
