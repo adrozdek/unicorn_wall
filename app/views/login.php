@@ -1,4 +1,4 @@
-<?= $data['error']; ?>
+<?php if (isset($data['error'])) echo $data['error']; ?>
 <form method="post" action="<?= $data['action'] ?>">
     <label>
         Email:

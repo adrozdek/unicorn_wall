@@ -111,16 +111,6 @@ class User implements IModel
     }
 
     /**
-     * @param $formPassword
-     * @param $dbPassword
-     * @return bool
-     */
-    public function verifyPassword($formPassword, $dbPassword)
-    {
-        return password_verify($formPassword, $dbPassword);
-    }
-
-    /**
      * @param $password1
      * @param $password2
      * @return mixed|null

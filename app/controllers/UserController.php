@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Components\HtmlComponent;
+use App\Components\UserComponent;
 use App\Core\Controller;
 use App\Models\User;
 use App\Repositories\UserRepository;
@@ -48,7 +49,9 @@ class UserController extends Controller
     {
         $action = '/';
         $error = '';
-        if (isset($_SESSION['userId'])) {
+        $userComp = new UserComponent();
+
+        if ($userComp->checkIfLoggedIn()) {
             return $this->renderView('main');
         }
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -62,7 +65,7 @@ class UserController extends Controller
             if ($user) {
                 $dbPassword = $user->getPassword();
                 if (password_verify($password, $dbPassword)) {
-                    $_SESSION['userId'] = $user->getId();
+                    $userComp->login($user->getId());
                     return $this->renderView('main');
                 }
             }
@@ -72,6 +75,17 @@ class UserController extends Controller
         $this->renderView('login', [
             'action' => $action,
             'error' => $error,
+        ]);
+    }
+
+    public function logout()
+    {
+        $userComp = new UserComponent();
+        $userComp->logout();
+
+        $action = '/';
+        $this->renderView('login', [
+            'action' => $action,
         ]);
     }
 }
