@@ -6,6 +6,10 @@ use App\Core\DbConnector;
 
 class UserRepository
 {
+    /**
+     * @param $id
+     * @return bool|mixed
+     */
     public function findById($id)
     {
         $con = DbConnector::getConnection();
@@ -19,6 +23,10 @@ class UserRepository
         }
     }
 
+    /**
+     * @param $email
+     * @return bool|mixed
+     */
     public function findByEmail($email)
     {
         $con = DbConnector::getConnection();
@@ -27,7 +35,6 @@ class UserRepository
 
         if ($stmt->rowCount() === 1) {
             $user = $stmt->fetchObject('App\Models\User');
-            var_dump($user);
             return $user;
         } else {
             return false;

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Components\HtmlComponent;
 use App\Core\DbConnector;
+use App\Repositories\UserRepository;
 
 class User implements IModel
 {
@@ -35,7 +36,7 @@ class User implements IModel
         if (empty($this->email)) {
             $this->errors[] = 'Invalid email';
         }
-        if (!$this->checkIfUserExists($this->email)) {
+        if ($this->checkIfUserExists($this->email)) {
             $this->errors[] = 'Email already used';
         }
         if (!$this->checkIfValidBirthDate($this->birthdate)) {
@@ -44,12 +45,14 @@ class User implements IModel
         return empty($this->errors);
     }
 
+    /**
+     * @param $email
+     * @return bool
+     */
     public function checkIfUserExists($email)
     {
-        $con = DbConnector::getConnection();
-        $stmt = $con->prepare("SELECT email FROM Users WHERE email = ?");
-        $stmt->execute([$email]);
-        if ($stmt->rowCount() === 0) {
+        $userRepo = new UserRepository();
+        if ($userRepo->findByEmail($email)) {
             return true;
         } else {
             return false;
