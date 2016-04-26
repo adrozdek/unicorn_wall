@@ -13,7 +13,7 @@ class User implements IModel
     private $email;
     private $password;
     private $city;
-    private $birthDate;
+    private $birthdate;
     private $unicorns;
     private $active;
     private $errors = [];
@@ -38,7 +38,7 @@ class User implements IModel
         if (!$this->checkIfUserExists($this->email)) {
             $this->errors[] = 'Email already used';
         }
-        if (!$this->checkIfValidBirthDate($this->birthDate)) {
+        if (!$this->checkIfValidBirthDate($this->birthdate)) {
             $this->errors[] = 'Invalid birthdate';
         }
         return empty($this->errors);
@@ -56,9 +56,13 @@ class User implements IModel
         }
     }
 
-    private function checkIfValidBirthDate($birthDate)
+    /**
+     * @param $birthdate
+     * @return bool
+     */
+    private function checkIfValidBirthDate($birthdate)
     {
-        $date = explode('-', $birthDate);
+        $date = explode('-', $birthdate);
         if (count($date) == 3) {
             $year = preg_match('/^[\d]{4}$/', $date[0]);
             $month = preg_match('/^[\d]{2}$/', $date[1]);
@@ -95,7 +99,7 @@ class User implements IModel
                 $this->email,
                 $this->password,
                 $this->city,
-                $this->birthDate,
+                $this->birthdate,
                 $this->unicorns,
                 $this->active,
             ])
@@ -104,6 +108,16 @@ class User implements IModel
             }
         }
         return false;
+    }
+
+    /**
+     * @param $formPassword
+     * @param $dbPassword
+     * @return bool
+     */
+    public function verifyPassword($formPassword, $dbPassword)
+    {
+        return password_verify($formPassword, $dbPassword);
     }
 
     /**
@@ -231,17 +245,17 @@ class User implements IModel
     /**
      * @return mixed
      */
-    public function getBirthDate()
+    public function getBirthdate()
     {
-        return $this->birthDate;
+        return $this->birthdate;
     }
 
     /**
-     * @param mixed $birthDate
+     * @param mixed $birthdate
      */
-    public function setBirthDate($birthDate)
+    public function setBirthdate($birthdate)
     {
-        $this->birthDate = $birthDate;
+        $this->birthdate = $birthdate;
     }
 
     /**
