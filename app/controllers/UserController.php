@@ -41,31 +41,37 @@ class UserController extends Controller
         ]);
     }
 
-
+    /**
+     * @return bool
+     */
     public function login()
     {
-        var_dump($_POST);
-        $htmlComp = new HtmlComponent();
+        $action = '/';
+        $error = '';
+        if (isset($_SESSION['userId'])) {
+            return $this->renderView('main');
+        }
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $htmlComp = new HtmlComponent();
             $email = $htmlComp->filterEmail($_POST['userEmail']);
             $password = $htmlComp->filterString($_POST['password']);
 
             $userRepo = new UserRepository();
             $user = $userRepo->findByEmail($email);
 
-            $usernie = new User();
-
-            $dbPassword = $user->getPassword();
-            if ($usernie->verifyPassword($password, $dbPassword)) {
-                return true;
-            } else {
-                return false;
+            if ($user) {
+                $dbPassword = $user->getPassword();
+                if (password_verify($password, $dbPassword)) {
+                    $_SESSION['userId'] = $user->getId();
+                    return $this->renderView('main');
+                }
             }
+            $error = 'Wrong email or password';
         }
 
-        $action = '/';
         $this->renderView('login', [
             'action' => $action,
+            'error' => $error,
         ]);
     }
 }
