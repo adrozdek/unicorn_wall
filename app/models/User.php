@@ -85,14 +85,14 @@ class User implements IModel
         if ($this->validate()) {
             $con = DbConnector::getConnection();
             $stmt = $con->prepare("
-            INSERT INTO Users (first_name, last_name, email, password, city, birth_date, unicorns, active) 
+            INSERT INTO Users (firstName, lastName, email, password, city, birthdate, unicorns, active) 
             VALUES (?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE 
-            first_name = VALUES (first_name),
-            last_name = VALUES (last_name),
+            firstName = VALUES (firstName),
+            lastName = VALUES (lastName),
             email = VALUES (email),
             password = VALUES (password),
             city = VALUES (city),
-            birth_date = VALUES (birth_date),
+            birthdate = VALUES (birthdate),
             unicorns = VALUES (unicorns),
             active = VALUES (active)
             ");
