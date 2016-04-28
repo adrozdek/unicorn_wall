@@ -52,7 +52,7 @@ class App
             }
 
         } else {
-            throw new \Exception('Error '.$result['error']['code']);
+            throw new \Exception('Error ' . $result['error']['code']);
         }
     }
 

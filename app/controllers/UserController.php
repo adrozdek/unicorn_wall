@@ -8,6 +8,10 @@ use App\Core\Controller;
 use App\Models\User;
 use App\Repositories\UserRepository;
 
+/**
+ * Class UserController
+ * @package App\Controllers
+ */
 class UserController extends Controller
 {
     /**
@@ -77,7 +81,7 @@ class UserController extends Controller
             'error' => $error,
         ]);
     }
-
+    
     public function logout()
     {
         $userComp = new UserComponent();

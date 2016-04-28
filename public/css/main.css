@@ -1,0 +1,22 @@
+body {
+    background: url('../images/back.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.panel-default {
+    opacity: 0.9;
+    position: relative;
+    top: 70px;
+}
+
+.form-group.last {
+    margin-bottom:0;
+}
+
+.error {
+    text-align: center;
+    color: indianred;
+}

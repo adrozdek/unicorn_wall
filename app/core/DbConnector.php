@@ -4,6 +4,10 @@ namespace App\Core;
 
 use PDO;
 
+/**
+ * Class DbConnector
+ * @package App\Core
+ */
 class DbConnector
 {
     private $host;

@@ -4,6 +4,10 @@ namespace App\Core;
 
 use App\Components\HtmlComponent;
 
+/**
+ * Class Controller
+ * @package App\Core
+ */
 class Controller
 {
     /**
