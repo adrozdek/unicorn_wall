@@ -3,6 +3,7 @@
 namespace App\Core;
 
 use App\Components\HtmlComponent;
+use App\Components\UserComponent;
 
 /**
  * Class Controller
@@ -26,5 +27,13 @@ class Controller
     protected function redirect($url)
     {
         header('Location: ' . $url);
+    }
+    
+    protected function preventUnauthorized()
+    {
+        $userComponent = new UserComponent();
+        if (!$userComponent->checkIfLoggedIn()) {
+            $this->redirect('/');
+        }
     }
 }

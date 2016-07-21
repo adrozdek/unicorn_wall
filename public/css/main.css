@@ -45,7 +45,7 @@
     }
 
     .login-box .error-list {
-        display: none;
+        /*display: none;*/
         color: red;
     }
 
